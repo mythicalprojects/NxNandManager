@@ -23,8 +23,20 @@ jobs:
       - name: preCheck
         shell: msys2 {0}
         run: |
-          ls /mingw64/lib | grep Qt5
-          ls /mingw64/lib | grep zlib
+          echo "Checking for Qt5 and zlib libraries..."
+          if [ -z "$(ls /mingw64/lib | grep Qt5)" ]; then
+            echo "Qt5 libraries not found in /mingw64/lib"
+          else
+            echo "Qt5 libraries found:"
+            ls /mingw64/lib | grep Qt5
+          fi
+
+          if [ -z "$(ls /mingw64/lib | grep zlib)" ]; then
+            echo "zlib libraries not found in /mingw64/lib"
+          else
+            echo "zlib libraries found:"
+            ls /mingw64/lib | grep zlib
+          fi
       - name: build
         shell: msys2 {0}
         run: |
