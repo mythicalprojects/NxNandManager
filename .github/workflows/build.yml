@@ -18,13 +18,32 @@ jobs:
             base-devel
             mingw-w64-x86_64-toolchain
             mingw64/mingw-w64-x86_64-qt5-static
+            mingw-w64-x86_64-zlib
+            mingw-w64-x86_64-pcre
+      - name: preCheck
+        shell: msys2 {0}
+        run: |
+          echo "Checking for Qt5 and zlib libraries..."
+          if [ -z "$(ls /mingw64/lib | grep Qt5)" ]; then
+            echo "Qt5 libraries not found in /mingw64/lib"
+          else
+            echo "Qt5 libraries found:"
+            ls /mingw64/lib | grep Qt5
+          fi
+
+          if [ -z "$(ls /mingw64/lib | grep zlib)" ]; then
+            echo "zlib libraries not found in /mingw64/lib"
+          else
+            echo "zlib libraries found:"
+            ls /mingw64/lib | grep zlib
+          fi
       - name: build
         shell: msys2 {0}
         run: |
           ln -s $(pwd) ~/NxNandManager
           cd ~/NxNandManager/NxNandManager/gui
           /mingw64/qt5-static/bin/qmake.exe NxNandManager.pro 'CONFIG += STATIC ARCH64'
-          make -j"$(nproc)"
+          make -j"$(nproc)" VERBOSE=1
           mkdir -p $GITHUB_WORKSPACE/bin
           cp release/NxNandManager.exe $GITHUB_WORKSPACE/bin
           cp ../virtual_fs/dokan/x64/dokan1.dll $GITHUB_WORKSPACE/bin
