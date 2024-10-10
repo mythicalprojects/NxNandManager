@@ -18,13 +18,13 @@ jobs:
             base-devel
             mingw-w64-x86_64-toolchain
             mingw64/mingw-w64-x86_64-qt5-static
-            mingw-w64-x86_64-zlib       # Added zlib
-            mingw-w64-x86_64-pcre       # Added PCRE for qtpcre2
+            mingw-w64-x86_64-zlib
+            mingw-w64-x86_64-pcre
       - name: preCheck
         shell: msys2 {0}
         run: |
-          ls /mingw64/lib | grep Qt5   # For Qt libraries
-          ls /mingw64/lib | grep zlib  # For zlib
+          ls /mingw64/lib | grep Qt5
+          ls /mingw64/lib | grep zlib
       - name: build
         shell: msys2 {0}
         run: |
